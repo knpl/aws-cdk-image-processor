@@ -13,3 +13,7 @@ export function toHexString(byteArray: Uint8Array): string {
   });
   return strBytes.join('');
 }
+
+export function rstripslash(s: string): string {
+  return s.replace(/\/$/, '');
+}

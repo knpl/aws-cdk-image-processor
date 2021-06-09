@@ -18,13 +18,8 @@ export class ObservableBucket extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: ObservableBucketProps = {}) {
     super(scope, id);
 
-    if (!props.prefix) {
-      props.prefix = 'images/';
-    }
-
-    if (!props.lambdaLogLevel) {
-      props.lambdaLogLevel = 'INFO';
-    }
+    props.prefix = props.prefix ?? 'images/';
+    props.lambdaLogLevel = props.lambdaLogLevel ?? 'INFO';
 
     const bucket = new s3.Bucket(this, 'imageBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,

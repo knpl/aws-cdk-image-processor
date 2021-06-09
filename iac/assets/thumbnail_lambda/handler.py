@@ -39,9 +39,8 @@ def lambda_handler(event_dict: Dict[str, Any], context: LambdaContext) -> None:
     filename: str = os.path.splitext(os.path.basename(key))[0]
 
     obj = S3.get_object(Bucket=bucket, Key=key)
-    obj.Body.read()
 
-    with Image.open(io.BytesIO(obj.Body.read())) as im:
+    with Image.open(io.BytesIO(obj['Body'].read())) as im:
         im.thumbnail((THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT))
         
         outstream = io.BytesIO()
