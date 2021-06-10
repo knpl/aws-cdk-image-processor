@@ -10,6 +10,7 @@ import {rstripslash} from './tools';
 export interface ImageUploadApiProps {
   imageUploadBucket: IBucket
   cognitoUserPool: IUserPool
+  audience: string
   prefix?: string
   throttlingRateLimit?: number
   throttlingBurstLimit?: number
@@ -18,8 +19,6 @@ export interface ImageUploadApiProps {
 export class ImageUploadApi extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: ImageUploadApiProps) {
     super(scope, id);
-
-    
 
     const api = new agw.RestApi(this, 'ImageUploadRestApi', {
       binaryMediaTypes: ['*/*'],
@@ -107,7 +106,10 @@ export class ImageUploadApi extends cdk.Construct {
         cognitoUserPools: [props.cognitoUserPool],
         resultsCacheTtl: cdk.Duration.hours(1),
         identitySource: agw.IdentitySource.header('Authorization')
-      })
+      }),
+      authorizationScopes: [
+        `${rstripslash(props.audience)}/images.upload`
+      ]
     });
     
   }

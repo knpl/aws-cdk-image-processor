@@ -1,3 +1,4 @@
 {
-    "cognitoUserPoolArn": "arn:aws:cognito-idp:eu-west-1:692540789642:userpool/eu-west-1_30hKab87g"
+    "cognitoUserPoolArn": "arn:aws:cognito-idp:eu-west-1:692540789642:userpool/eu-west-1_30hKab87g",
+    "audience": "https://image-upload-resource-server"
 }

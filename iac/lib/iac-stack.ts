@@ -15,6 +15,11 @@ export class IacStack extends cdk.Stack {
     }
     const userPool = cog.UserPool.fromUserPoolArn(this, 'UserPool', userPoolArn);
 
+    const audience = scope.node.tryGetContext("audience") as string
+    if (!audience) {
+      throw new Error("Missing required property in context: 'audience'");
+    }
+
     const observableBucket = new ObservableBucket(this, 'ObservableBucket', {
       prefix: 'images/',
       lambdaLogLevel: 'INFO'
@@ -29,8 +34,9 @@ export class IacStack extends cdk.Stack {
 
     new ImageUploadApi(this, 'ImageUploadApi', {
       imageUploadBucket: observableBucket.imageUploadBucket,
-      cognitoUserPool: userPool, /* Needs the id_token */
-      prefix: 'images/'
+      prefix: 'images/',
+      cognitoUserPool: userPool,
+      audience: audience
     });
   }
 }
